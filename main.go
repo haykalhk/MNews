@@ -18,10 +18,19 @@ import (
 )
 
 var conf = config.Config{}
-var cobadao = dao.MNewsDAO{}
+var mdao = dao.MNewsDAO{}
+
+// GET list of all MNews
+func FindAllNews(w http.ResponseWriter, r *http.Request) {
+	MNews, err := mdao.FindAll()
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	respondWithJson(w, http.StatusOK, MNews)
+}
 
 // POST a new news
-// Decodes the request body into a news object, assign it an ID_MNews, and uses the DAO Insert method to create a news in database
 func Createnews(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var news models.News
@@ -30,33 +39,31 @@ func Createnews(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	news.ID = bson.NewObjectId()
-	if err := cobadao.Insert(news); err != nil {
+	if err := mdao.Insert(news); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 	respondWithJson(w, http.StatusCreated, news)
 }
 
-// GET list of all MNews
-// Uses FindAll method of DAO Library to fetch list of MNews from database
-func AllMNews(w http.ResponseWriter, r *http.Request) {
-	MNews, err := cobadao.FindAll()
+// GET a news by its ID_news
+func FindNewsByID(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	news, err := mdao.FindByID(params["ID_news"])
 	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
+		respondWithError(w, http.StatusBadRequest, "Berita tidak ditemukan!")
 		return
 	}
-	respondWithJson(w, http.StatusOK, MNews)
+	respondWithJson(w, http.StatusOK, news)
 }
 
-// CRUD
+// GET a news by its category
 
-// GET a news by its ID_news
-// Using mux library to get parameters that the users passed in with the request
-func Findnews(w http.ResponseWriter, r *http.Request) {
+func FindNewsByCategory(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	news, err := cobadao.FindByID(params["ID_news"])
+	news, err := mdao.FindByCategory(params["Category"])
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "news tidak ditemukan!")
+		respondWithError(w, http.StatusBadRequest, "Berita tidak ditemukan atau Kategori Salah")
 		return
 	}
 	respondWithJson(w, http.StatusOK, news)
@@ -70,7 +77,7 @@ func Updatenews(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, "Invalid")
 		return
 	}
-	if err := cobadao.Update(news); err != nil {
+	if err := mdao.Update(news); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -85,7 +92,7 @@ func Deletenews(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, "Invalid")
 		return
 	}
-	if err := cobadao.Delete(news); err != nil {
+	if err := mdao.Delete(news); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
@@ -110,20 +117,21 @@ func respondWithJson(w http.ResponseWriter, code int, payload interface{}) {
 func init() {
 	conf.Read()
 
-	cobadao.Server = conf.Server
-	cobadao.Database = conf.Database
-	cobadao.Connect()
+	mdao.Server = conf.Server
+	mdao.Database = conf.Database
+	mdao.Connect()
 }
 
 // Main
 // Handling HTTP Routes
 func main() {
 	r := mux.NewRouter()
-	r.HandleFunc("/MNews", AllMNews).Methods("GET")
+	r.HandleFunc("/MNews", FindAllNews).Methods("GET")
 	r.HandleFunc("/MNews", Createnews).Methods("POST")
 	r.HandleFunc("/MNews", Updatenews).Methods("PUT")
 	r.HandleFunc("/MNews", Deletenews).Methods("DELETE")
-	r.HandleFunc("/MNews/{ID_news}", Findnews).Methods("GET")
+	r.HandleFunc("/MNews/{ID_news}", FindNewsByID).Methods("GET")
+	r.HandleFunc("/MNews/Category/{Category}", FindNewsByCategory).Methods("GET")
 	// Start server
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatal(err)

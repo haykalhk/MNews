@@ -14,24 +14,11 @@
       "Category": 1
     },
     {
-      "ID_News": "TJB002",
-      "Website": "Tribun Jabar",
-      "News_Title": "Ganda Putra Terbaik Dunia, Marcus Gideon/Kevin Sanjaya, Mundur dari BWF World Tour Finals",
-      "Writer": "-",
-      "Category": 2
-    },
-    {
       "ID_News": "BBC001",
       "Website": "BBC Sport",
-      "News_Title": "Dele Alli: Arsenal identify image of bottle-thrower during loss to Tottenham",
-      "Writer": "Alex Bysouth",
-      "Category": 2
-    },
-    {
-      "ID_News": "BBC002",
-      "Website": "BBC Sport",
-      "News_Title": "Ole Gunnar Solskjaer: Man Utd caretaker boss will 'get players enjoying football' again",
+      "News_Title": "Arsenal lose to Tottenham 2-0 in carabao cup",
       "Writer": "Chris Stanford",
       "Category": 2
     }
+   
   ]

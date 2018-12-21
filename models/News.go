@@ -10,7 +10,7 @@ type News struct {
 	Website    string `bson:"Website" json:"Website"`
 	News_Title string `bson:"News_Title" json:"News_Title"`
 	Writer     string `bson:"Writer" json:"Writer"`
-	Category   int    `bson:"Category" json:"Category"`
+	Category   string `bson:"Category" json:"Category"`
 }
 
 type MNews []News

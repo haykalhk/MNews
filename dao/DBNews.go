@@ -20,7 +20,7 @@ var db *mgo.Database
 
 // Collect News
 const (
-	COLLECTION = "MNews"
+	COLLECTION = "news"
 )
 
 // Establish connections to MongoDB Database
@@ -46,6 +46,13 @@ func (c *MNewsDAO) FindAll() ([]models.News, error) {
 func (c *MNewsDAO) FindByID(ID_News string) (models.News, error) {
 	var News models.News
 	err := db.C(COLLECTION).Find(bson.M{"ID_News": ID_News}).One(&News)
+	return News, err
+}
+
+// Finding a News by Category
+func (c *MNewsDAO) FindByCategory(Category string) (models.News, error) {
+	var News models.News
+	err := db.C(COLLECTION).Find(bson.M{"Category": Category}).All(&News)
 	return News, err
 }
 
