@@ -1,0 +1,37 @@
+[
+    {
+      "ID_News": "NYT001",
+      "Website": "New York Times",
+      "News_Title": "Facebook, Criminal Justice, Federal Reserve: Your Wednesday Briefing",
+      "Writer": "Chris Stanford",
+      "Category": 1
+    },
+    {
+      "ID_News": "TJB001",
+      "Website": "Tribun Jabar",
+      "News_Title": "Dedi Mulyadi Sebut Peta Suara Pilpres di Jabar Berubah, Beralih dari Prabowo ke Jokowi",
+      "Writer": "Muhamad Syarif Abdussalam",
+      "Category": 1
+    },
+    {
+      "ID_News": "TJB002",
+      "Website": "Tribun Jabar",
+      "News_Title": "Ganda Putra Terbaik Dunia, Marcus Gideon/Kevin Sanjaya, Mundur dari BWF World Tour Finals",
+      "Writer": "-",
+      "Category": 2
+    },
+    {
+      "ID_News": "BBC001",
+      "Website": "BBC Sport",
+      "News_Title": "Dele Alli: Arsenal identify image of bottle-thrower during loss to Tottenham",
+      "Writer": "Alex Bysouth",
+      "Category": 2
+    },
+    {
+      "ID_News": "BBC002",
+      "Website": "BBC Sport",
+      "News_Title": "Ole Gunnar Solskjaer: Man Utd caretaker boss will 'get players enjoying football' again",
+      "Writer": "Chris Stanford",
+      "Category": 2
+    }
+  ]
